@@ -28,7 +28,7 @@ var EncodeCmd = &cobra.Command{
 			log.Fatalf("Missing file argument")
 		}
 
-		var files []string
+		pathCollect := make(map[string]bool)
 
 		for _, arg := range args {
 			matches, err := filepath.Glob(arg)
@@ -37,14 +37,12 @@ var EncodeCmd = &cobra.Command{
 				log.Fatalf("Error processing argument %s", arg)
 			}
 
-			files = matches
+			for _, match := range matches {
+				pathCollect[match] = true
+			}
 		}
 
-		if len(files) < 1 {
-			log.Fatalf("No files to process")
-		}
-
-		log.Println(files)
+		files := fileop.OnlyFiles(pathCollect)
 
 		for _, file := range files {
 			enc, err := fileop.Encode(file)
@@ -60,6 +58,5 @@ var EncodeCmd = &cobra.Command{
 			f, err := os.Create(file + flags.Suffix)
 			f.WriteString(enc)
 		}
-
 	},
 }
