@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	"fmt"
 	"log"
 	"os"
 	"path/filepath"
@@ -11,6 +12,7 @@ import (
 
 type Flags struct {
 	Suffix string
+	Output bool
 }
 
 var flags Flags
@@ -18,16 +20,14 @@ var flags Flags
 func init() {
 	RootCmd.AddCommand(EncodeCmd)
 	EncodeCmd.Flags().StringVarP(&flags.Suffix, "suffix", "s", "_base64", "A suffix to add to the generated files")
+	EncodeCmd.Flags().BoolVarP(&flags.Output, "output", "o", true, "Print the names of encoded files")
 }
 
 var EncodeCmd = &cobra.Command{
 	Use:   "encode",
 	Short: "base64 encode a list of files",
+	Args:  cobra.MinimumNArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
-		if len(args) < 1 {
-			log.Fatalf("Missing file argument")
-		}
-
 		pathCollect := make(map[string]bool)
 
 		for _, arg := range args {
@@ -57,6 +57,10 @@ var EncodeCmd = &cobra.Command{
 
 			f, err := os.Create(file + flags.Suffix)
 			f.WriteString(enc)
+
+			if flags.Output {
+				fmt.Println(file + flags.Suffix)
+			}
 		}
 	},
 }
