@@ -1,16 +1,23 @@
 package cmd
 
 import (
-	"fmt"
 	"log"
+	"os"
 	"path/filepath"
 
 	"github.com/spf13/cobra"
 	"github.com/tinhajj/baseify/fileop"
 )
 
+type Flags struct {
+	Suffix string
+}
+
+var flags Flags
+
 func init() {
 	RootCmd.AddCommand(EncodeCmd)
+	EncodeCmd.Flags().StringVarP(&flags.Suffix, "suffix", "s", "_base64", "A suffix to add to the generated files")
 }
 
 var EncodeCmd = &cobra.Command{
@@ -37,6 +44,8 @@ var EncodeCmd = &cobra.Command{
 			log.Fatalf("No files to process")
 		}
 
+		log.Println(files)
+
 		for _, file := range files {
 			enc, err := fileop.Encode(file)
 
@@ -44,7 +53,13 @@ var EncodeCmd = &cobra.Command{
 				log.Fatalf("Error processing file %s", file)
 			}
 
-			fmt.Println(file)
+			if _, err := os.Stat(file + flags.Suffix); !os.IsNotExist(err) {
+				log.Fatalf("Tried to output encoding to file, but it already existed %v", file+"suffix")
+			}
+
+			f, err := os.Create(file + flags.Suffix)
+			f.WriteString(enc)
 		}
+
 	},
 }
