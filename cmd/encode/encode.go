@@ -1,4 +1,4 @@
-package cmd
+package encode
 
 import (
 	"fmt"
@@ -7,6 +7,7 @@ import (
 	"path/filepath"
 
 	"github.com/spf13/cobra"
+	"github.com/tinhajj/baseify/cmd"
 	"github.com/tinhajj/baseify/fileop"
 )
 
@@ -18,7 +19,7 @@ type Flags struct {
 var flags Flags
 
 func init() {
-	RootCmd.AddCommand(EncodeCmd)
+	cmd.RootCmd.AddCommand(EncodeCmd)
 	EncodeCmd.Flags().StringVarP(&flags.Suffix, "suffix", "s", "_base64", "A suffix to add to the generated files")
 	EncodeCmd.Flags().BoolVarP(&flags.Output, "output", "o", true, "Print the names of encoded files")
 }
