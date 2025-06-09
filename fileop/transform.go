@@ -20,7 +20,7 @@ func Decode(code string, dest string) error {
 		return err
 	}
 
-	if err := ioutil.WriteFile(dest, buff, 07440); err != nil {
+	if err := ioutil.WriteFile(dest, buff, 0644); err != nil {
 		return err
 	}
 

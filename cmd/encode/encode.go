@@ -6,9 +6,10 @@ import (
 	"os"
 	"path/filepath"
 
+	"baseify/cmd"
+	"baseify/fileop"
+
 	"github.com/spf13/cobra"
-	"github.com/tinhajj/baseify/cmd"
-	"github.com/tinhajj/baseify/fileop"
 )
 
 type Flags struct {
@@ -49,14 +50,17 @@ var EncodeCmd = &cobra.Command{
 			enc, err := fileop.Encode(file)
 
 			if err != nil {
-				log.Fatalf("Error processing file %s", file)
+				log.Fatalf("Error processing file %s: %s", file, err)
 			}
 
 			if _, err := os.Stat(file + flags.Suffix); !os.IsNotExist(err) {
-				log.Fatalf("Tried to output encoding to file, but it already existed %v", file+"suffix")
+				log.Fatalf("Tried to output encoding to file, but it already exists %v", file+"suffix")
 			}
 
 			f, err := os.Create(file + flags.Suffix)
+			if err != nil {
+				log.Fatalf("Error creating file %s: %s", file, err)
+			}
 			f.WriteString(enc)
 
 			if flags.Output {

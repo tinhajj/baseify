@@ -4,9 +4,10 @@ import (
 	"io/ioutil"
 	"log"
 
+	"baseify/cmd"
+	"baseify/fileop"
+
 	"github.com/spf13/cobra"
-	"github.com/tinhajj/baseify/cmd"
-	"github.com/tinhajj/baseify/fileop"
 )
 
 func init() {
@@ -27,7 +28,7 @@ var DecodeCmd = &cobra.Command{
 		err = fileop.Decode(string(b), args[1])
 
 		if err != nil {
-			log.Fatalf("Unable to write decoded file to %v", args[1])
+			log.Fatalf("Unable to write decoded file to %v: %s", args[1], err)
 		}
 	},
 }
