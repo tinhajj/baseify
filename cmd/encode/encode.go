@@ -6,8 +6,8 @@ import (
 	"os"
 	"path/filepath"
 
-	"baseify/cmd"
-	"baseify/fileop"
+	"github.com/tinhajj/baseify/cmd"
+	"github.com/tinhajj/baseify/fileop"
 
 	"github.com/spf13/cobra"
 )

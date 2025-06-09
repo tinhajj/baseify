@@ -1,4 +1,4 @@
-module baseify
+module github.com/tinhajj/baseify
 
 go 1.24.3
 

@@ -1,10 +1,10 @@
 package main
 
 import (
-	"baseify/cmd"
+	"github.com/tinhajj/baseify/cmd"
 
-	_ "baseify/cmd/decode"
-	_ "baseify/cmd/encode"
+	_ "github.com/tinhajj/baseify/cmd/decode"
+	_ "github.com/tinhajj/baseify/cmd/encode"
 )
 
 func main() {

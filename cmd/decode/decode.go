@@ -4,8 +4,8 @@ import (
 	"io/ioutil"
 	"log"
 
-	"baseify/cmd"
-	"baseify/fileop"
+	"github.com/tinhajj/baseify/cmd"
+	"github.com/tinhajj/baseify/fileop"
 
 	"github.com/spf13/cobra"
 )
